@@ -1,6 +1,18 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
-
+<div class="row">
+    <?php foreach ($products as $key => $item) : ?>         
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="<?= base_url() . "img/" . $item['foto'] ?>" alt="..." width="50%">
+                        <h5 class="card-title"><?= $item['nama'] ?><br><?= $item['harga'] ?></h5>
+                    </div>
+                </div>
+            </div> 
+    <?php endforeach ?> 
+</div>
+ <?= $this->endSection() ?>
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
@@ -52,4 +64,4 @@
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
-               <?= $this->endSection() ?>
+              
