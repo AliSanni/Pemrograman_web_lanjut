@@ -1,4 +1,17 @@
 <?= $this->extend('layout') ?>
+<?= $this->section('title') ?>Produk<?= $this->endSection() ?>
+<?= $this->section('pageTitle') ?>
+<div class="pagetitle">
+  <h1>Produk</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
+      <li class="breadcrumb-item active">Produk</li>
+    </ol>
+  </nav>
+</div>
+<?= $this->endSection() ?>
+<?= $this->section('cardTitle') ?>Produk<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <?php
 if (session()->getFlashData('success')) {
@@ -14,12 +27,12 @@ if (session()->getFlashData('success')) {
     <?php foreach ($products as $key => $item) : ?>         
             <div class="col-lg-6">
               <?= form_open('keranjang') ?>
-<?php
-echo form_hidden('id', $item['id']);
-echo form_hidden('nama', $item['nama']);
-echo form_hidden('harga', $item['harga']);
-echo form_hidden('foto', $item['foto']);
-?>
+              <?= form_hidden([
+                  'id'    => $item['id'],
+                  'nama'  => $item['nama'],
+                  'harga' => $item['harga'],
+                  'foto'  => $item['foto']]) 
+                  ?>
                 <div class="card">
                     <div class="card-body">
                         <img src="<?= base_url() . "img/" . $item['foto'] ?>" alt="..." width="50%">

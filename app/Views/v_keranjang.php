@@ -1,4 +1,17 @@
 <?= $this->extend('layout') ?>
+<?= $this->section('title') ?>Keranjang<?= $this->endSection() ?>
+<?= $this->section('pageTitle') ?>
+<div class="pagetitle">
+  <h1>Keranjang</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
+      <li class="breadcrumb-item active">Keranjang</li>
+    </ol>
+  </nav>
+</div>
+<?= $this->endSection() ?>
+<?= $this->section('cardTitle') ?>Keranjang<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <?php
 if (session()->getFlashData('success')) {
@@ -51,6 +64,8 @@ if (session()->getFlashData('success')) {
 
 <button type="submit" class="btn btn-primary">Perbarui Keranjang</button>
  <a class="btn btn-warning" href="<?= base_url() ?>keranjang/clear">Kosongkan Keranjang</a>
-
+<?php if (!empty($items)) : ?>
+    <a class="btn btn-success" href="<?php echo base_url() ?>checkout">Selesai Belanja</a>
+<?php endif; ?>
 <?= form_close() ?>
 <?= $this->endSection() ?>
