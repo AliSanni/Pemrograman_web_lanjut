@@ -45,12 +45,12 @@ Content-Type: application/json
 }
 
 ### update some field
-PATCH http://localhost:8080/api/products/10
+PATCH http://localhost:8080/api/products/7
 Authorization: Bearer my-secret-token
 Content-Type: application/json
 
 { 
-  "jumlah": 25
+  "jumlah": 12
 }
 
 ### delete
