@@ -1,14 +1,14 @@
 <?= $this->extend('layout') ?>
+<?= $this->section('title') ?>Profil<?= $this->endSection() ?>
+<?= $this->section('cardTitle') ?>Profil<?= $this->endSection() ?>
 <?= $this->section('pageTitle') ?>
-  <main id="main" class="main">
-
     <div class="pagetitle">
-      <h1>Profile</h1>
+      <h1>Profil</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
           <li class="breadcrumb-item">Users</li>
-          <li class="breadcrumb-item active">Profile</li>
+          <li class="breadcrumb-item active">Profil</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

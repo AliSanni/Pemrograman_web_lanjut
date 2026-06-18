@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+  <title><?= $this->renderSection('title') ?: 'Toko' ?></title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -40,18 +40,21 @@
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Data Tables</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
-    
+    <?php $pageTitle = $this->renderSection('pageTitle'); ?>
+    <?php if ($pageTitle) : ?>
+      <?= $pageTitle ?>
+    <?php else : ?>
+      <div class="pagetitle">
+        <h1>Data Tables</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
+            <li class="breadcrumb-item">Tables</li>
+            <li class="breadcrumb-item active">Data</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+    <?php endif ?>
 
     <section class="section">
       <div class="row">
@@ -59,7 +62,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Data profil</h5>
+              <h5 class="card-title"><?= $this->renderSection('cardTitle') ?: 'Data Profil' ?></h5>
               
              <?= $this->renderSection('content') ?>
             </div>
@@ -82,6 +85,13 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+      <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
   <!-- Vendor JS Files -->
   <script src="<?= base_url()?>NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="<?= base_url()?>NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -91,6 +101,8 @@
   <script src="<?= base_url()?>NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="<?= base_url()?>NiceAdmin/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="<?= base_url()?>NiceAdmin/assets/vendor/php-email-form/validate.js"></script>
+
+      <?= $this->renderSection('script') ?> 
 
   <!-- Template Main JS File -->
   <script src="<?= base_url()?>NiceAdmin/assets/js/main.js"></script>
