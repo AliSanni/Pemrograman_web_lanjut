@@ -17,10 +17,10 @@ class TransaksiController extends BaseController
 
 public function __construct()
 {
-    helper(['number', 'form']);
+    helper(['number', 'form', 'diskon']);
     $this->cart = service('cart');
     $this->transactionModel = new TransactionModel();
-$this->transactionDetailModel = new TransactionDetailModel(); 
+    $this->transactionDetailModel = new TransactionDetailModel(); 
 }
   public function index()
 {  
@@ -95,11 +95,21 @@ public function cart_clear()
 }
 public function checkout()
 {  
-     
+    $items = $this->cart->contents();
+
+    $subtotal = 0;
+    foreach ($items as $item) {
+        $subtotal += $item['qty'] * $item['price'];
+    }
+
+    // Gunakan fungsi helper untuk perhitungan ringkasan
+    // Tidak ada ongkir dan voucher pada tahap ini, hanya untuk preview
+    $ringkasan = hitung_ringkasan_checkout($subtotal, '', 0);
 
     $data = [
-        'items' => $this->cart->contents(),
-        'total' => $this->cart->total(),
+        'items'     => $items,
+        'subtotal'  => $subtotal,
+        'ringkasan' => $ringkasan,
     ];
 
     return view('v_checkout', $data);
@@ -165,14 +175,24 @@ public function buy()
         $subtotal += $item['qty'] * $item['price'];
     }
 
+    // Ambil input dari form
+    $voucher_code = $this->request->getPost('voucher_code') ?? '';
     $ongkir = (int) $this->request->getPost('ongkir');
 
+    // Hitung ringkasan lengkap sesuai capstone
+    $ringkasan = hitung_ringkasan_checkout($subtotal, $voucher_code, $ongkir);
+
     $transaction = [
-        'username'    => $this->request->getPost('username'),
-        'alamat'      => $this->request->getPost('alamat'),
-        'ongkir'      => $ongkir,
-        'total_harga' => $subtotal + $ongkir,
-        'status'      => 0, 
+        'username'          => $this->request->getPost('username'),
+        'alamat'            => $this->request->getPost('alamat'),
+        'ongkir'            => $ringkasan['ongkir'],
+        'diskon'            => $ringkasan['diskon_voucher'],
+        'service_fee'       => $ringkasan['biaya_jasa'],
+        'voucher_code'      => strtoupper(trim($voucher_code ?? '')),
+        'voucher_discount'  => $ringkasan['diskon_voucher'],
+        'free_mouse_value'  => $ringkasan['free_mouse'],
+        'total_harga'       => $ringkasan['grand_total'],
+        'status'            => 0, 
     ];
 
     // insert transaction
@@ -200,7 +220,7 @@ public function buy()
         return redirect()->back()->with('error', 'Gagal membuat transaksi');
     }
 
-		//hapus session keranjang belanja 
+    //hapus session keranjang belanja 
     $this->cart->destroy();
     return redirect()->to(base_url());
 }
